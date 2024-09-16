@@ -7,7 +7,7 @@ db = SQLAlchemy(app)
 
 @app.route('/')
 def index():
-    return 'Welcome to the Car Rental Service!'
+    return 'Third Party!'
 
 # Define the Car model
 class Car(db.Model):
@@ -40,7 +40,6 @@ def add_car():
     new_car = Car(
         car_model=data['car_model'],
         car_type=data['car_type'],
-
         registration_number=data['registration_number'],
         seating_capacity=data['seating_capacity'],
         rental_price_per_day=data['rental_price_per_day'],
@@ -49,6 +48,33 @@ def add_car():
     db.session.add(new_car)
     db.session.commit()
     return jsonify({'message': 'Car added!'}), 201
+
+
+# Catering Services
+# Define the CateringPackage model
+class CateringPackage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    package_name = db.Column(db.String(255), nullable=False)
+    package_description = db.Column(db.String(255), nullable=False)
+    cuisine_type = db.Column(db.String(100), nullable=False)
+    min_pax = db.Column(db.Integer, nullable=False)
+    price_per_pax = db.Column(db.Float, nullable=False)
+
+
+# Example Route to Get All Catering Packages
+@app.route('/catering_packages', methods=['GET'])
+def get_catering_packages():
+    packages = CateringPackage.query.all()
+    return jsonify([{
+        'id': package.id,
+        'package_name': package.package_name,
+        'package_description': package.package_description,
+        'cuisine_type': package.cuisine_type,
+        'min_pax': package.min_pax,
+        'price_per_pax': package.price_per_pax
+    } for package in packages])
+
+
 
 if __name__ == '__main__':
     with app.app_context():
