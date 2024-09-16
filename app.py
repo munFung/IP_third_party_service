@@ -57,7 +57,6 @@ class CateringPackage(db.Model):
     package_name = db.Column(db.String(255), nullable=False)
     package_description = db.Column(db.String(255), nullable=False)
     cuisine_type = db.Column(db.String(100), nullable=False)
-    min_pax = db.Column(db.Integer, nullable=False)
     price_per_pax = db.Column(db.Float, nullable=False)
 
 
@@ -70,7 +69,6 @@ def get_catering_packages():
         'package_name': package.package_name,
         'package_description': package.package_description,
         'cuisine_type': package.cuisine_type,
-        'min_pax': package.min_pax,
         'price_per_pax': package.price_per_pax
     } for package in packages])
 
