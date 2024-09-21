@@ -6,9 +6,16 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bankService.db'
 db = SQLAlchemy(app)
 
-key = Fernet.generate_key()
-print(key.decode())  # Store this key safely
+# Load the key from the 'key.key' file
+with open('key.key', 'rb') as key_file:
+    key = key_file.read()
+
+# Initialize the cipher with the loaded key
 cipher = Fernet(key)
+
+# Save the key to a file
+with open('key.key', 'wb') as key_file:
+    key_file.write(key)
 
 @app.route('/')
 def index():
