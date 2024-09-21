@@ -18,6 +18,7 @@ class ServiceContact(db.Model):
     email = db.Column(db.String(120), nullable=False)
     role = db.Column(db.String(50), nullable=False)
     company_name = db.Column(db.String(80), nullable=False)
+    status = db.Column(db.String(20), nullable=False) 
 
 # Route to get all service contacts
 @app.route('/service_contacts', methods=['GET'])
@@ -30,6 +31,7 @@ def get_service_contacts():
         'email': contact.email,
         'role': contact.role,
         'company_name': contact.company_name,
+        'status': contact.status, 
     } for contact in contacts])
 
 
