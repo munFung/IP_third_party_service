@@ -79,6 +79,5 @@ def add_maintenance_request():
 # Initialize the database tables
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # This will create the tables in coldice_company.db
-    # Run the app on http://127.0.0.1:2000
-    app.run(host='127.0.0.1', port=2000, debug=True)
+        db.create_all()  
+    app.run(host='127.0.0.1', port=5003, debug=True)
