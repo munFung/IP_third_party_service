@@ -33,4 +33,10 @@ All Service will run in different port number (from 5000 to 5004)
 1. In PHP laravel
 ````
 composer require guzzlehttp/guzzle
+
+composer require defuse/php-encryption
+
+2. In Third Party Service
+
+pip install cryptography
 ````
