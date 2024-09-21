@@ -20,6 +20,13 @@ class Car(db.Model):
     color = db.Column(db.String(20), nullable=False)
 
 
+# Define the CarRental model with car_id and room_booking_id attributes
+class CarRental(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    car_id = db.Column(db.Integer, db.ForeignKey('car.id'), nullable=False)  # Foreign key to Car table
+    room_booking_id = db.Column(db.Integer, nullable=False)  # Foreign key or Integer
+
+
 # Route to get all cars
 @app.route('/cars', methods=['GET'])
 def get_cars():
@@ -35,7 +42,6 @@ def get_cars():
     } for car in cars])
 
 
-
 # Route to get car rental price by car_id
 @app.route('/car_price/<int:car_id>', methods=['GET'])
 def get_car_price(car_id):
@@ -48,6 +54,19 @@ def get_car_price(car_id):
         }), 200
     else:
         return jsonify({'message': 'Car not found'}), 404
+
+
+# Route to add a new car rental
+@app.route('/car_rentals', methods=['POST'])
+def add_car_rental():
+    data = request.get_json()
+    new_car_rental = CarRental(
+        car_id=data['car_id'],
+        room_booking_id=data['room_booking_id']
+    )
+    db.session.add(new_car_rental)
+    db.session.commit()
+    return jsonify({'message': 'Car rental added!'}), 201
 
 
 if __name__ == '__main__':
