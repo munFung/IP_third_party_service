@@ -9,6 +9,28 @@ db = SQLAlchemy(app)
 def index():
     return 'Third Party!'
 
+# Define the ServiceContact model
+class ServiceContact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    role = db.Column(db.String(50), nullable=False)
+    company_name = db.Column(db.String(80), nullable=False)
+
+# Route to get all service contacts
+@app.route('/service_contacts', methods=['GET'])
+def get_service_contacts():
+    contacts = ServiceContact.query.all()
+    return jsonify([{
+        'id': contact.id,
+        'name': contact.name,
+        'phone': contact.phone,
+        'email': contact.email,
+        'role': contact.role,
+        'company_name': contact.company_name,
+    } for contact in contacts])
+
 # Define the Car model
 class Car(db.Model):
     id = db.Column(db.Integer, primary_key=True)
