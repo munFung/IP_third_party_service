@@ -36,20 +36,6 @@ class RequestOfMaintenance(db.Model):
         self.request_date = request_date
         self.rooms = rooms
 
-# Route to add service history
-@app.route('/add_service_history', methods=['POST'])
-def add_service_history():
-    data = request.get_json()
-    new_service_history = HistoryOfService(
-        hotel_name=data['hotel_name'],
-        room_number=data['room_number'],
-        maintenance_date=data['maintenance_date'],
-        cost=data['cost']
-    )
-    db.session.add(new_service_history)
-    db.session.commit()
-    return jsonify({'message': 'Service history added!'})
-
 # Route to get service history
 @app.route('/service_history', methods=['GET'])
 def get_service_history():
@@ -62,19 +48,7 @@ def get_service_history():
         'cost': record.cost
     } for record in service_history])
 
-# Route to add a maintenance request
-@app.route('/add_maintenance_request', methods=['POST'])
-def add_maintenance_request():
-    data = request.get_json()
-    room_list = ','.join(data['rooms'])  # Convert room list to a comma-separated string
-    new_maintenance_request = RequestOfMaintenance(
-        hotel_name=data['hotel_name'],
-        request_date=data['request_date'],
-        rooms=room_list
-    )
-    db.session.add(new_maintenance_request)
-    db.session.commit()
-    return jsonify({'message': 'Maintenance request added!'})
+
 
 # Initialize the database tables
 if __name__ == '__main__':
